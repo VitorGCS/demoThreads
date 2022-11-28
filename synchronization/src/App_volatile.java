@@ -19,7 +19,7 @@ class Processor extends Thread {
     }
 }
 
-public class App {
+public class App_volatile {
     /*
     * Problems:
     *  - data being cached - solution: "volatile": to prevent threads caching variables when they're not changed from within that thread;
