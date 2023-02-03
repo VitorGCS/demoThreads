@@ -12,15 +12,16 @@ class Processor implements Runnable{
     @Override
     public void run() {
         System.out.println("Starting: "+id);
-        // Simulation some operation....
+        SimulationOfOperations();
+        System.out.println("Completed: "+id);
+    }
+
+    private void SimulationOfOperations() {
         try {
-            Thread.sleep(5);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
-        System.out.println("Completed: "+id);
     }
 }
 
@@ -30,17 +31,15 @@ public class App_threadPools {
 
         ExecutorService executorService = Executors.newFixedThreadPool(2);
 
-        for(int i=0; i<5; i++){
+        for(int i=0; i<5; i++)
             executorService.submit(new Processor(i));
-        }
 
-        executorService.shutdown();
+        executorService.shutdown();// when all the tasks are finishing, the executor must be shutdown, only when all the threads with tasks are complete
 
         System.out.println("All tasks submitted.");
 
         executorService.awaitTermination(1, TimeUnit.DAYS);
 
         System.out.println("All tasks completed.");
-
     }
 }
