@@ -12,25 +12,33 @@ class Processor implements Runnable {
     @Override
     public void run() {
         System.out.println("Started.");
+        someProcessing();
+        latch.countDown();
+    }
+
+    private void someProcessing() {
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        latch.countDown();
     }
 }
 
 
 public class App_CountDownLatch {
     public static void main(String [] args) throws InterruptedException {
-        CountDownLatch latch = new CountDownLatch(3); // CountDownLatch is Thread safe
+        CountDownLatch latch = new CountDownLatch(3); // CountDownLatch is Thread safe and will wait until achieve 0
 
         ExecutorService executorService = Executors.newFixedThreadPool(3);
         for(int i =0; i<3; i++){
             executorService.submit(new Processor(latch));
         }
-        latch.await();
+        latch.await();// Blocked operation to wait until all be executed
+/*
+        executorService.shutdown();// when all the tasks are finishing, the executor must be shutdown, only when all the threads with tasks are complete
+        executorService.awaitTermination(1, TimeUnit.DAYS);
+*/
         System.out.println("Completed.");
     }
 }
