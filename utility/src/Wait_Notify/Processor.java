@@ -2,7 +2,7 @@ package Wait_Notify;
 
 import java.util.Scanner;
 
-public class Processor {
+class Processor {
     public void producer() throws InterruptedException{
         synchronized (this){
             System.out.println("Producer thread running ....");
